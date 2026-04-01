@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "AI Career Navigator"
+version = "1.0.0"
+id = "artifacts/career-navigator"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24001
+
+[services.development]
+run = "pnpm --filter @workspace/career-navigator run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/career-navigator", "run", "build" ]
+publicDir = "artifacts/career-navigator/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24001"
+BASE_PATH = "/"

@@ -1,0 +1,152 @@
+🟢 CORE FEATURES (BUILD THESE)
+1. 🔍 Career Search + Field Selection
+Search bar: “Search your dream career…”
+Field selection:
+💻 Tech
+🎨 Design
+🏥 Healthcare
+⚙️ Core
+📊 Business
+2. 🧠 AI Career Recommendation
+Output:
+🟢 Safe Career
+🟡 Balanced Career
+🔴 Dream Career
+Each shows:
+Match %
+Salary
+Demand
+Why it suits
+3. 🟣 Career Simulation (🔥 UNIQUE)
+👨‍💻 Day in life
+💰 Salary growth
+😓 Reality check
+4. 🔥 Survival Analysis (GAME CHANGER)
+Lifestyle match
+Stress compatibility
+Work hours
+
+Output:
+
+Survival Score
+Honest feedback
+Alternative careers
+5. 🧩 Skill Gap Analyzer
+Skills you have ✅
+Skills needed ❌
+Progress bar
+6. 🗺️ Personalized Roadmap
+Step-by-step plan
+Timeline (30 / 90 days)
+7. 📚 Courses Section
+🟢 Free courses
+🔴 Paid courses
+8. 📍 Nearby Learning Centers (Skill India Inspired)
+Show:
+Institute name
+Location
+Free / Paid
+9. 💼 Job Roles Mapping
+Roles:
+Intern
+Junior
+Specialist
+10. 🤖 AI Mentor Chatbot
+Ask anything
+Personalized answers
+11. 🎯 Daily Action Plan
+Today tasks checklist
+🟡 BONUS (IF TIME)
+Career comparison
+Profile dashboard
+🔴 PPT ONLY
+Resume analyzer
+Certifications
+🏆 🔥 COMPLETE USER FLOW (FINAL)
+🟢 1. Landing Page
+Title + Start button
+🔍 2. Field Selection + Search
+Choose field OR search career
+🟡 3. Smart Onboarding
+Interests
+Skill level
+Goals
+Work-life preference
+🧠 4. AI Processing
+Loading screen
+🔵 5. Career Recommendation
+Safe / Balanced / Dream
+👉 Click → Explore
+🟣 6. Career Simulation
+Day in life
+Salary growth
+Reality check
+🔥 7. Survival Analysis
+Survival score
+Feedback
+Alternatives
+🧩 8. Skill Gap
+Skills vs required
+🗺️ 9. Roadmap
+Step-by-step plan
+📚 10. Courses
+Free + Paid
+📍 11. Nearby Centers
+Institutes near user
+💼 12. Job Roles
+Possible roles
+🤖 13. AI Mentor
+Ask questions
+🎯 14. Daily Plan
+Tasks
+🔁 🔥 FINAL FLOW (ONE VIEW)
+Landing Page
+   ↓
+Field Selection 🔥
+   ↓
+Career Search
+   ↓
+Smart Input
+   ↓
+AI Processing
+   ↓
+Career Suggestions
+   ↓
+Career Simulation
+   ↓
+🔥 Survival Analysis
+   ↓
+Skill Gap
+   ↓
+Roadmap
+   ↓
+📚 Courses (Free + Paid)
+   ↓
+📍 Nearby Centers 🔥
+   ↓
+Job Roles
+   ↓
+AI Mentor
+   ↓
+Daily Plan
+🎯 USER OPTIONS (IMPORTANT FOR UI)
+Career Page:
+Explore Career
+Change Field
+Compare
+Simulation Page:
+Continue
+Try another career
+Survival Page:
+Accept career
+View alternatives
+Courses Page:
+Free courses
+Paid courses
+Centers Page:
+Filter:
+Free
+Paid
+Chatbot:
+Ask doubt
+Generate roadmap

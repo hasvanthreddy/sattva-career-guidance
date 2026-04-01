@@ -1,15 +1,24 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: AI Career Navigator API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: openai
+    description: OpenAI AI chat, image, and audio operations
+  - name: career
+    description: Career navigation operations
+  - name: resume
+    description: Resume analysis operations
+  - name: roadmap
+    description: Career roadmap operations
+  - name: courses
+    description: Learning courses operations
 paths:
   /healthz:
     get:
@@ -24,6 +33,334 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /openai/conversations:
+    get:
+      operationId: listOpenaiConversations
+      tags: [openai]
+      summary: List all conversations
+      responses:
+        "200":
+          description: List of conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OpenaiConversation"
+    post:
+      operationId: createOpenaiConversation
+      tags: [openai]
+      summary: Create a new conversation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOpenaiConversationBody"
+      responses:
+        "201":
+          description: Created conversation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenaiConversation"
+
+  /openai/conversations/{id}:
+    get:
+      operationId: getOpenaiConversation
+      tags: [openai]
+      summary: Get conversation with messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Conversation with messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenaiConversationWithMessages"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenaiError"
+    delete:
+      operationId: deleteOpenaiConversation
+      tags: [openai]
+      summary: Delete a conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OpenaiError"
+
+  /openai/conversations/{id}/messages:
+    get:
+      operationId: listOpenaiMessages
+      tags: [openai]
+      summary: List messages in a conversation
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OpenaiMessage"
+    post:
+      operationId: sendOpenaiMessage
+      tags: [openai]
+      summary: Send a text message and receive a streaming text response
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendOpenaiMessageBody"
+      responses:
+        "200":
+          description: SSE stream of assistant text chunks
+          content:
+            text/event-stream: {}
+
+  /career/recommend:
+    post:
+      operationId: recommendCareers
+      tags: [career]
+      summary: Get AI career recommendations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerRecommendBody"
+      responses:
+        "200":
+          description: Career recommendations
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerRecommendResponse"
+
+  /career/simulate:
+    post:
+      operationId: simulateCareer
+      tags: [career]
+      summary: Simulate a career day in life
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerSimulateBody"
+      responses:
+        "200":
+          description: Career simulation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerSimulateResponse"
+
+  /career/survival:
+    post:
+      operationId: survivalAnalysis
+      tags: [career]
+      summary: Get survival analysis for a career
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SurvivalAnalysisBody"
+      responses:
+        "200":
+          description: Survival analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SurvivalAnalysisResponse"
+
+  /career/skill-gap:
+    post:
+      operationId: analyzeSkillGap
+      tags: [career]
+      summary: Analyze skill gap for a career
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillGapBody"
+      responses:
+        "200":
+          description: Skill gap analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillGapResponse"
+
+  /career/job-roles:
+    post:
+      operationId: getJobRoles
+      tags: [career]
+      summary: Get job roles for a career
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobRolesBody"
+      responses:
+        "200":
+          description: Job roles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobRolesResponse"
+
+  /career/daily-plan:
+    post:
+      operationId: getDailyPlan
+      tags: [career]
+      summary: Get daily action plan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DailyPlanBody"
+      responses:
+        "200":
+          description: Daily action plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DailyPlanResponse"
+
+  /career/explain:
+    post:
+      operationId: explainCareer
+      tags: [career]
+      summary: Explain why a career suits the user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerExplainBody"
+      responses:
+        "200":
+          description: Career explanation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerExplainResponse"
+
+  /roadmap/generate:
+    post:
+      operationId: generateRoadmap
+      tags: [roadmap]
+      summary: Generate a personalized career roadmap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoadmapGenerateBody"
+      responses:
+        "200":
+          description: Career roadmap
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoadmapGenerateResponse"
+
+  /resume/analyze:
+    post:
+      operationId: analyzeResume
+      tags: [resume]
+      summary: Analyze uploaded resume (PDF or text)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResumeAnalyzeBody"
+      responses:
+        "200":
+          description: Resume analysis
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResumeAnalyzeResponse"
+
+  /courses/list:
+    post:
+      operationId: listCourses
+      tags: [courses]
+      summary: List courses for a career
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoursesListBody"
+      responses:
+        "200":
+          description: Courses list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoursesListResponse"
+
+  /courses/centers:
+    post:
+      operationId: listLearningCenters
+      tags: [courses]
+      summary: List nearby learning centers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LearningCentersBody"
+      responses:
+        "200":
+          description: Learning centers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LearningCentersResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +371,521 @@ components:
       required:
         - status
 
+    OpenaiConversation:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - title
+        - createdAt
+
+    OpenaiMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        conversationId:
+          type: integer
+        role:
+          type: string
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - conversationId
+        - role
+        - content
+        - createdAt
+
+    CreateOpenaiConversationBody:
+      type: object
+      properties:
+        title:
+          type: string
+      required:
+        - title
+
+    SendOpenaiMessageBody:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+
+    OpenaiConversationWithMessages:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpenaiMessage"
+      required:
+        - id
+        - title
+        - createdAt
+        - messages
+
+    OpenaiError:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    CareerRecommendBody:
+      type: object
+      properties:
+        interests:
+          type: string
+        skills:
+          type: string
+        skillLevel:
+          type: string
+        goals:
+          type: string
+        workLifePreference:
+          type: string
+        field:
+          type: string
+      required:
+        - interests
+        - skills
+        - goals
+
+    CareerOption:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        matchPercent:
+          type: integer
+        salary:
+          type: string
+        demand:
+          type: string
+        whySuitable:
+          type: string
+      required:
+        - name
+        - type
+        - matchPercent
+        - salary
+        - demand
+        - whySuitable
+
+    CareerRecommendResponse:
+      type: object
+      properties:
+        safeCareer:
+          $ref: "#/components/schemas/CareerOption"
+        balancedCareer:
+          $ref: "#/components/schemas/CareerOption"
+        dreamCareer:
+          $ref: "#/components/schemas/CareerOption"
+      required:
+        - safeCareer
+        - balancedCareer
+        - dreamCareer
+
+    CareerSimulateBody:
+      type: object
+      properties:
+        career:
+          type: string
+        userProfile:
+          type: string
+      required:
+        - career
+
+    CareerSimulateResponse:
+      type: object
+      properties:
+        dayInLife:
+          type: string
+        salaryGrowth:
+          type: string
+        realityCheck:
+          type: string
+      required:
+        - dayInLife
+        - salaryGrowth
+        - realityCheck
+
+    SurvivalAnalysisBody:
+      type: object
+      properties:
+        career:
+          type: string
+        lifestyle:
+          type: string
+        stressLevel:
+          type: string
+        workHoursPreference:
+          type: string
+      required:
+        - career
+
+    SurvivalAnalysisResponse:
+      type: object
+      properties:
+        survivalScore:
+          type: integer
+        lifestyleMatch:
+          type: string
+        stressCompatibility:
+          type: string
+        workHoursAnalysis:
+          type: string
+        feedback:
+          type: string
+        alternatives:
+          type: array
+          items:
+            type: string
+      required:
+        - survivalScore
+        - lifestyleMatch
+        - stressCompatibility
+        - workHoursAnalysis
+        - feedback
+        - alternatives
+
+    SkillGapBody:
+      type: object
+      properties:
+        career:
+          type: string
+        currentSkills:
+          type: string
+      required:
+        - career
+        - currentSkills
+
+    SkillItem:
+      type: object
+      properties:
+        name:
+          type: string
+        have:
+          type: boolean
+        importance:
+          type: string
+      required:
+        - name
+        - have
+        - importance
+
+    SkillGapResponse:
+      type: object
+      properties:
+        skills:
+          type: array
+          items:
+            $ref: "#/components/schemas/SkillItem"
+        progressPercent:
+          type: integer
+        summary:
+          type: string
+      required:
+        - skills
+        - progressPercent
+        - summary
+
+    JobRolesBody:
+      type: object
+      properties:
+        career:
+          type: string
+      required:
+        - career
+
+    JobRole:
+      type: object
+      properties:
+        level:
+          type: string
+        title:
+          type: string
+        salary:
+          type: string
+        description:
+          type: string
+        requirements:
+          type: string
+      required:
+        - level
+        - title
+        - salary
+        - description
+        - requirements
+
+    JobRolesResponse:
+      type: object
+      properties:
+        roles:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobRole"
+      required:
+        - roles
+
+    DailyPlanBody:
+      type: object
+      properties:
+        career:
+          type: string
+        currentLevel:
+          type: string
+      required:
+        - career
+
+    DailyTask:
+      type: object
+      properties:
+        task:
+          type: string
+        duration:
+          type: string
+        category:
+          type: string
+      required:
+        - task
+        - duration
+        - category
+
+    DailyPlanResponse:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/DailyTask"
+        motivation:
+          type: string
+      required:
+        - tasks
+        - motivation
+
+    CareerExplainBody:
+      type: object
+      properties:
+        career:
+          type: string
+        userProfile:
+          type: string
+      required:
+        - career
+        - userProfile
+
+    CareerExplainResponse:
+      type: object
+      properties:
+        whySuitable:
+          type: string
+        whatToExpect:
+          type: string
+      required:
+        - whySuitable
+        - whatToExpect
+
+    RoadmapStep:
+      type: object
+      properties:
+        step:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        timeline:
+          type: string
+        resources:
+          type: string
+      required:
+        - step
+        - title
+        - description
+        - timeline
+        - resources
+
+    RoadmapGenerateBody:
+      type: object
+      properties:
+        career:
+          type: string
+        currentLevel:
+          type: string
+        timeframe:
+          type: string
+      required:
+        - career
+
+    RoadmapGenerateResponse:
+      type: object
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapStep"
+        totalTimeline:
+          type: string
+        summary:
+          type: string
+      required:
+        - steps
+        - totalTimeline
+        - summary
+
+    ResumeAnalyzeBody:
+      type: object
+      properties:
+        resumeText:
+          type: string
+        targetCareer:
+          type: string
+      required:
+        - resumeText
+
+    ResumeAnalyzeResponse:
+      type: object
+      properties:
+        skillsFound:
+          type: array
+          items:
+            type: string
+        missingSkills:
+          type: array
+          items:
+            type: string
+        suggestedCareer:
+          type: string
+        improvements:
+          type: array
+          items:
+            type: string
+        overallScore:
+          type: integer
+        summary:
+          type: string
+      required:
+        - skillsFound
+        - missingSkills
+        - suggestedCareer
+        - improvements
+        - overallScore
+        - summary
+
+    Course:
+      type: object
+      properties:
+        name:
+          type: string
+        provider:
+          type: string
+        url:
+          type: string
+        isPaid:
+          type: boolean
+        duration:
+          type: string
+        level:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+        - provider
+        - url
+        - isPaid
+        - duration
+        - level
+        - description
+
+    CoursesListBody:
+      type: object
+      properties:
+        career:
+          type: string
+        level:
+          type: string
+      required:
+        - career
+
+    CoursesListResponse:
+      type: object
+      properties:
+        freeCourses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+        paidCourses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Course"
+      required:
+        - freeCourses
+        - paidCourses
+
+    LearningCenter:
+      type: object
+      properties:
+        name:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        isPaid:
+          type: boolean
+        description:
+          type: string
+        contact:
+          type: string
+      required:
+        - name
+        - location
+        - type
+        - isPaid
+        - description
+        - contact
+
+    LearningCentersBody:
+      type: object
+      properties:
+        location:
+          type: string
+        career:
+          type: string
+      required:
+        - location
+
+    LearningCentersResponse:
+      type: object
+      properties:
+        centers:
+          type: array
+          items:
+            $ref: "#/components/schemas/LearningCenter"
+      required:
+        - centers
