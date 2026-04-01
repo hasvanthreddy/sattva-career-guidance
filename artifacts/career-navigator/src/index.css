@@ -215,7 +215,7 @@
   }
   
   .glass-panel {
-    @apply bg-background/60 backdrop-blur-xl border border-white/10 dark:border-white/5;
+    @apply bg-card border border-border;
   }
   
   .text-gradient {

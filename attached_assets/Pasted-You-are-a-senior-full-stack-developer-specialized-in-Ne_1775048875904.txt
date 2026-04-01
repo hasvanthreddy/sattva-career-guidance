@@ -1,0 +1,60 @@
+You are a senior full-stack developer specialized in Next.js 16, React 19, TypeScript, Tailwind CSS, shadcn/ui, and Vercel AI SDK 6. 
+
+I have a career guidance platform project with the following issues and improvement requests. I want you to **fix everything in one go**. Provide **ready-to-use code changes**, instructions, or file snippets.
+
+### Current Issues / Requests:
+
+1. **Start Assessment Button**:
+   - Hover text is invisible.
+   - Button click not working.
+
+2. **Resume Upload**:
+   - Upload fails.
+   - Backend may not handle multipart/form-data.
+   - Show loading while parsing.
+
+3. **Career Default Issue**:
+   - Once a career is selected, all pages use it as default.
+   - Fix to allow separate selections for different fields.
+
+4. **“View More” on Careers**:
+   - Not working.
+   - Should open either modal or dynamic page.
+
+5. **Add More Images**:
+   - Careers should allow multiple images in carousel or grid.
+
+6. **Spelling & Multi-language**:
+   - Correct “Sattva”.
+   - Add multi-language support (at least English + one more).
+
+7. **Dark & Light Theme + UI/UX**:
+   - Toggle theme.
+   - Navigation should not mix with body content.
+   - Improve spacing, card hover effects, responsive design.
+
+8. **AI Mentor Name Change**:
+   - Everywhere replace “AI Mentor” or ChatGPT with **“Sattva”**.
+   - Update prompts to: 
+     “You are Sattva, the career mentor. Provide friendly, structured career guidance in concise, actionable steps.”
+
+9. **Login with Google**:
+   - Implement Google OAuth using NextAuth.js.
+   - Store user data (name, email, preferences) in Replit backend at `career-guidance-hub--hashvanthreddy.replit.app`.
+
+10. **Other Fixes / Polishing**:
+    - Reset state for new career search to prevent stale data.
+    - Fix non-functional options/buttons.
+    - Add animations and transitions for cards and modals.
+    - Ensure mobile responsiveness with Tailwind breakpoints.
+    - Loading states for AI responses and API calls.
+
+### Deliverables:
+- Updated **frontend components** (career-card, field-card, resume-dropzone, navigation, modals, etc.).
+- Updated **API routes** (`/api/resume`, `/api/skillgap`, `/api/recommendations`, `/api/daily`).
+- AI prompt updates in `lib/prompts.ts` for Sattva.
+- Multi-language integration using `next-i18next`.
+- Google login integration and storage snippet.
+- Dark/light theme toggle component.
+
+Make sure the **project remains compatible with Next.js 16 + TypeScript + AI SDK 6**, and provide **ready-to-copy code** wherever possible.

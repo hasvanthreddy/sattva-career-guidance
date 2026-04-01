@@ -35,6 +35,8 @@ export default function Onboarding() {
   };
 
   const submit = () => {
+    // Clear stale data before fresh recommendation
+    localStorage.removeItem("selected_career");
     recommendMutation.mutate(
       { data: answers },
       {
