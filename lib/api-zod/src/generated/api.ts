@@ -264,6 +264,7 @@ export const GenerateRoadmapResponse = zod.object({
 export const AnalyzeResumeBody = zod.object({
   resumeText: zod.string(),
   targetCareer: zod.string().optional(),
+  userStandard: zod.string().optional(),
 });
 
 export const AnalyzeResumeResponse = zod.object({
@@ -273,6 +274,11 @@ export const AnalyzeResumeResponse = zod.object({
   improvements: zod.array(zod.string()),
   overallScore: zod.number(),
   summary: zod.string(),
+  name: zod.string().nullable().optional(),
+  email: zod.string().nullable().optional(),
+  phone: zod.string().nullable().optional(),
+  education: zod.string().nullable().optional(),
+  experience: zod.string().nullable().optional(),
 });
 
 /**

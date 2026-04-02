@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import { Layout } from "@/components/layout";
 import { ThemeProvider } from "@/contexts/theme";
 import { LanguageProvider } from "@/contexts/language";
+import { UserProvider } from "@/contexts/user";
 
 import Home from "@/pages/home";
 import Onboarding from "@/pages/onboarding";
@@ -47,16 +48,18 @@ function App() {
   return (
     <ThemeProvider>
       <LanguageProvider>
-        <QueryClientProvider client={queryClient}>
-          <TooltipProvider>
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-              <Layout>
-                <Router />
-              </Layout>
-            </WouterRouter>
-            <Toaster />
-          </TooltipProvider>
-        </QueryClientProvider>
+        <UserProvider>
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+                <Layout>
+                  <Router />
+                </Layout>
+              </WouterRouter>
+              <Toaster />
+            </TooltipProvider>
+          </QueryClientProvider>
+        </UserProvider>
       </LanguageProvider>
     </ThemeProvider>
   );

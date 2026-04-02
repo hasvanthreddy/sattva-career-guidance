@@ -175,6 +175,7 @@ export interface RoadmapGenerateResponse {
 export interface ResumeAnalyzeBody {
   resumeText: string;
   targetCareer?: string;
+  userStandard?: string;
 }
 
 export interface ResumeAnalyzeResponse {
@@ -184,6 +185,11 @@ export interface ResumeAnalyzeResponse {
   improvements: string[];
   overallScore: number;
   summary: string;
+  name?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  education?: string | null;
+  experience?: string | null;
 }
 
 export interface Course {

@@ -1,10 +1,12 @@
-import { Link } from "wouter";
+import { useState } from "react";
+import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { Search, Code, Palette, HeartPulse, HardHat, Briefcase, ChevronRight, ArrowRight, Compass, Target, BrainCircuit, Rocket } from "lucide-react";
+import { Search, Code, Palette, HeartPulse, HardHat, Briefcase, ChevronRight, ArrowRight, Compass, Target, BrainCircuit, Rocket, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/language";
+import { useUser } from "@/contexts/user";
 
 const FIELDS = [
   { name: "Technology", icon: Code, color: "from-blue-500 to-cyan-400", bg: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" },
@@ -14,8 +16,20 @@ const FIELDS = [
   { name: "Business", icon: Briefcase, color: "from-emerald-500 to-green-400", bg: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" },
 ];
 
+const INTERMEDIATE_COURSES = [
+  { name: "JEE Main & Advanced", desc: "Physics, Chemistry, Math foundation for top engineering colleges", icon: "🔬" },
+  { name: "EAMCET Engineering", desc: "Andhra & Telangana engineering entrance preparation", icon: "⚙️" },
+  { name: "EAMCET Medical", desc: "Biology foundation for medical entrance exams", icon: "🩺" },
+  { name: "MPC Stream", desc: "Math, Physics, Chemistry — IIT/NIT cutoffs and strategies", icon: "📐" },
+  { name: "BiPC Stream", desc: "Biology, Physics, Chemistry — MBBS/BDS paths", icon: "🧬" },
+  { name: "CEC / MEC Stream", desc: "Commerce & Economics — CA, MBA, Finance paths", icon: "💹" },
+];
+
 export default function Home() {
   const { t } = useLanguage();
+  const { user, sessionData } = useUser();
+  const [, setLocation] = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const FEATURES = [
     { title: "AI Path Mapping", desc: "Discover careers matched precisely to your unique skills and interests.", icon: Compass },
@@ -23,6 +37,17 @@ export default function Home() {
     { title: "Sattva Mentor", desc: "Get 24/7 personalized career guidance from Sattva, your AI counselor.", icon: BrainCircuit },
     { title: "Dynamic Roadmaps", desc: "Actionable 30/90 day plans to accelerate your career growth.", icon: Rocket },
   ];
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      localStorage.setItem("selected_career", searchQuery.trim());
+      setLocation("/courses");
+    }
+  };
+
+  const isIntermediate = sessionData.grade === "intermediate";
+  const isFoundation = ["6", "7", "8", "9", "10"].includes(sessionData.grade);
 
   return (
     <div className="flex flex-col min-h-full">
@@ -41,6 +66,13 @@ export default function Home() {
               {t("hero.badge")}
             </div>
 
+            {user && sessionData.grade && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-4 ml-3">
+                <GraduationCap className="w-3.5 h-3.5" />
+                Welcome, {user.name.split(" ")[0]}! ({t(`grade.${sessionData.grade}`) || sessionData.grade})
+              </div>
+            )}
+
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
               {t("hero.title1")} <br className="hidden md:block" />
               <span className="text-gradient animate-gradient bg-[length:200%_auto]">{t("hero.title2")}</span>
@@ -51,13 +83,15 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto mb-16">
-              <div className="relative w-full">
+              <form onSubmit={handleSearch} className="relative w-full">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
                   className="w-full h-14 pl-10 pr-4 text-lg rounded-full"
                   placeholder={t("hero.placeholder")}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
-              </div>
+              </form>
               <Link href="/onboarding" className="w-full sm:w-auto shrink-0">
                 <Button
                   size="lg"
@@ -83,6 +117,69 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {isIntermediate && (
+        <section className="py-16 bg-gradient-to-r from-primary/5 via-background to-primary/5 border-y border-primary/10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-sm font-medium text-primary mb-4">
+                🎓 Intermediate Foundation Guide
+              </div>
+              <h2 className="text-3xl font-bold mb-3">{t("intermediate.title")}</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Personalized guidance for Class 11-12 students — from competitive exam prep to career cutoffs.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {INTERMEDIATE_COURSES.map((course, i) => (
+                <motion.div
+                  key={course.name}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <Link href="/onboarding">
+                    <Card className="border-border hover:border-primary/40 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 cursor-pointer group">
+                      <CardContent className="p-5">
+                        <div className="text-3xl mb-3">{course.icon}</div>
+                        <h3 className="font-bold text-base mb-1.5 group-hover:text-primary transition-colors">{course.name}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{course.desc}</p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Link href="/onboarding">
+                <Button className="bg-primary text-white hover:bg-primary/90 gap-2 rounded-full px-6">
+                  Get Personalized Guidance <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {isFoundation && (
+        <section className="py-12 bg-muted/20 border-y border-border">
+          <div className="container mx-auto px-4 text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-sm font-medium text-amber-600 dark:text-amber-400 mb-4">
+              📖 Foundation Level Guidance
+            </div>
+            <h2 className="text-2xl font-bold mb-3">Build Strong Foundations Early!</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto mb-6">
+              Class {sessionData.grade} is the perfect time to explore interests and develop core skills. Start your career discovery journey today.
+            </p>
+            <Link href="/onboarding">
+              <Button className="bg-primary text-white hover:bg-primary/90 gap-2 rounded-full px-6">
+                Explore Career Paths <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+          </div>
+        </section>
+      )}
 
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
