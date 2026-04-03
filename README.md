@@ -78,17 +78,6 @@ It is designed especially for students at **intermediate and above levels**.
 
 ---
 
-## 📦 Setup Instructions
-
-```bash
-git clone https://github.com/your-username/ai-career-navigator.git
-cd ai-career-navigator
-npm install
-npm run dev
-```
-
----
-
 ## 🔑 Environment Variables
 
 
