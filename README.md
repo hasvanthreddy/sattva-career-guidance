@@ -91,23 +91,8 @@ npm run dev
 
 ## 🔑 Environment Variables
 
-Create a `.env` file and add:
 
-```
-OPENAI_API_KEY=your_api_key
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_CLOUD_BUCKET=your_bucket_name
-```
 
----
-
-## 🚀 Deployment
-
-* Push the project to GitHub
-* Import into Vercel
-* Add environment variables
-* Deploy
 
 ---
 
